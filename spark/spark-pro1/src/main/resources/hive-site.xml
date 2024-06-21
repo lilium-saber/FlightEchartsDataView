@@ -1,0 +1,22 @@
+<configuration>
+    <property>
+        <name>hive.metastore.uris</name>
+        <value>thrift://192.168.88.188:9083</value>
+    </property>
+    <property>
+        <name>javax.jdo.option.ConnectionURL</name>
+        <value>jdbc:mysql://localhost/metastore?createDatabaseIfNotExist=true</value>
+    </property>
+    <property>
+        <name>javax.jdo.option.ConnectionDriverName</name>
+        <value>com.mysql.jdbc.Driver</value>
+    </property>
+    <property>
+        <name>javax.jdo.option.ConnectionUserName</name>
+        <value>root</value>
+    </property>
+    <property>
+        <name>javax.jdo.option.ConnectionPassword</name>
+        <value></value>
+    </property>
+</configuration>
