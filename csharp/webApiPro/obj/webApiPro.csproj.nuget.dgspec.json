@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\programingg\\gitpro\\shixi\\DataVisualizationFlightDelay\\csharp\\webApiPro\\webApiPro.csproj": {}
+    "E:\\programingg\\gitpro\\shixigit\\FlightEchartsDataView\\csharp\\webApiPro\\webApiPro.csproj": {}
   },
   "projects": {
-    "E:\\programingg\\gitpro\\shixi\\DataVisualizationFlightDelay\\csharp\\webApiPro\\webApiPro.csproj": {
+    "E:\\programingg\\gitpro\\shixigit\\FlightEchartsDataView\\csharp\\webApiPro\\webApiPro.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\programingg\\gitpro\\shixi\\DataVisualizationFlightDelay\\csharp\\webApiPro\\webApiPro.csproj",
+        "projectUniqueName": "E:\\programingg\\gitpro\\shixigit\\FlightEchartsDataView\\csharp\\webApiPro\\webApiPro.csproj",
         "projectName": "webApiPro",
-        "projectPath": "E:\\programingg\\gitpro\\shixi\\DataVisualizationFlightDelay\\csharp\\webApiPro\\webApiPro.csproj",
+        "projectPath": "E:\\programingg\\gitpro\\shixigit\\FlightEchartsDataView\\csharp\\webApiPro\\webApiPro.csproj",
         "packagesPath": "C:\\Users\\6\\.nuget\\packages\\",
-        "outputPath": "E:\\programingg\\gitpro\\shixi\\DataVisualizationFlightDelay\\csharp\\webApiPro\\obj\\",
+        "outputPath": "E:\\programingg\\gitpro\\shixigit\\FlightEchartsDataView\\csharp\\webApiPro\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\VS1\\NuGetPackages"
@@ -58,6 +58,14 @@
               "target": "Package",
               "version": "[2.4.0, )"
             },
+            "CData.ApacheHive": {
+              "target": "Package",
+              "version": "[23.0.8839, )"
+            },
+            "CData.ApacheHive.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[23.0.8839, )"
+            },
             "Dapper": {
               "target": "Package",
               "version": "[2.1.35, )"
@@ -84,13 +92,25 @@
               "target": "Package",
               "version": "[8.0.6, )"
             },
+            "Microsoft.Hadoop.Client": {
+              "target": "Package",
+              "version": "[1.5.13, )"
+            },
+            "Microsoft.Hadoop.Hive": {
+              "target": "Package",
+              "version": "[0.12.5126.42915, )"
+            },
+            "Microsoft.Hadoop.WebClient": {
+              "target": "Package",
+              "version": "[0.12.5126.42915, )"
+            },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[8.0.2, )"
             },
             "MySql.Data": {
               "target": "Package",
-              "version": "[8.4.0, )"
+              "version": "[9.0.0, )"
             },
             "MySqlConnector": {
               "target": "Package",
@@ -110,7 +130,7 @@
             },
             "System.Data.Odbc": {
               "target": "Package",
-              "version": "[5.0.0, )"
+              "version": "[8.0.0, )"
             }
           },
           "imports": [
@@ -132,7 +152,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

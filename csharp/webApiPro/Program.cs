@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using webApiPro;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,9 +25,13 @@ builder.Services.AddCors(options =>
     });
 });
 
-var connectionString = "server=centos;database=flight;user=root;password=hadoop;AllowPublicKeyRetrieval=True;port=3306;";
+//var connectionString = "server=centos;database=flight;user=root;password=hadoop;AllowPublicKeyRetrieval=True;port=3306;";
 builder.Services.AddDbContext<webApiPro.SqlConnector>(options => options.UseMySql("server=centos;database=flight;user=root;port=3306;password=hadoop;AllowPublicKeyRetrieval=True;", 
     new MySqlServerVersion(new Version(5, 7, 29))));
+
+builder.Services.AddSingleton<HiveConnector>(provider => new HiveConnector("Driver={Hive ODBC Driver};Host=centos;Port=10000;Database=flight;UID=root;PWD=;"));
+
+//builder.Services.AddSingleton<HiveConnector>();
 
 var app = builder.Build();
 

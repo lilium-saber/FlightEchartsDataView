@@ -9,10 +9,19 @@ namespace webApiPro.Controllers
     public class FlightController : Controller
     {
         private readonly SqlConnector _sqlConnector;
+        private readonly HiveConnector _hiveConnector;
 
+        /*
         public FlightController(SqlConnector sqlConnector)
         {
             _sqlConnector = sqlConnector;
+        }
+        */
+
+        public FlightController(SqlConnector sqlConnector, HiveConnector hiveConnector)
+        {
+            _sqlConnector = sqlConnector;
+            _hiveConnector = hiveConnector;
         }
 
         public class OriginGet
@@ -114,8 +123,54 @@ namespace webApiPro.Controllers
                 list.Add(monthRateGet);
             }
             return list;
-
         }
+
+        [HttpGet("monthrate/{month}")]
+        public List<MonthRateGet> GetMonthRateGets(int month)
+        {
+            List<SqlModel.Flight.monthRate> monthRates = _sqlConnector.monthRates
+                .Where(f => f.Month == month)
+                .OrderByDescending(f => f.Month)
+                .ToList();
+            List<MonthRateGet> list = new List<MonthRateGet>();
+            foreach (var f in monthRates)
+            {
+                MonthRateGet monthRateGet = new MonthRateGet();
+                monthRateGet.month = f.Month;
+                monthRateGet.delay_ratio = (f.delay_ratio * 100).ToString("F2");
+                list.Add(monthRateGet);
+            }
+            return list;
+        }
+
+
+        [HttpPost("monthrate")]
+        public string PostMonthRate([FromBody] MonthRateGet monthRateGet)
+        {
+            _sqlConnector.monthRates.Add(new SqlModel.Flight.monthRate
+            {
+                Month = monthRateGet.month.Value,
+                delay_ratio = double.Parse(monthRateGet.delay_ratio) / 100
+            });
+            return "PostMonthRate";
+        }
+
+        [HttpGet("hivetest")]
+        public IActionResult GetHiveTest()
+        {
+            string sql = "SELECT * FROM delayedflights LIMIT 10";
+            try
+            {
+                var result = _hiveConnector.Query(sql);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+
+        
 
 
     }
