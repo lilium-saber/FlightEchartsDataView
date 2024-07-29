@@ -7,23 +7,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="picture\**" />
+    <Content Remove="picture\**" />
+    <EmbeddedResource Remove="picture\**" />
+    <None Remove="picture\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="BouncyCastle.Cryptography" Version="2.4.0" />
-    <PackageReference Include="CData.ApacheHive" Version="23.0.8839" />
-    <PackageReference Include="CData.ApacheHive.EntityFrameworkCore" Version="23.0.8839" />
     <PackageReference Include="Dapper" Version="2.1.35" />
-    <PackageReference Include="HotChocolate.Types.Scalars.Upload" Version="13.9.6" />
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="8.0.6" />
-    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="8.0.6" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.6">
+    <PackageReference Include="HotChocolate.Types.Scalars.Upload" Version="13.9.8" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="8.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="8.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Hadoop.Client" Version="1.5.13" />
-    <PackageReference Include="Microsoft.Hadoop.Hive" Version="0.12.5126.42915" />
-    <PackageReference Include="Microsoft.Hadoop.WebClient" Version="0.12.5126.42915" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.3" />
     <PackageReference Include="MySql.Data" Version="9.0.0" />
     <PackageReference Include="MySqlConnector" Version="2.3.7" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -33,7 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="picture\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

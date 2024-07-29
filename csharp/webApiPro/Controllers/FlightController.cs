@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using webApiPro.SqlModel.Flight;
 
 namespace webApiPro.Controllers
@@ -9,20 +10,21 @@ namespace webApiPro.Controllers
     public class FlightController : Controller
     {
         private readonly SqlConnector _sqlConnector;
-        private readonly HiveConnector _hiveConnector;
+        //private readonly HiveConnector _hiveConnector;
 
-        /*
+        
         public FlightController(SqlConnector sqlConnector)
         {
             _sqlConnector = sqlConnector;
         }
-        */
-
+        
+        /*
         public FlightController(SqlConnector sqlConnector, HiveConnector hiveConnector)
         {
             _sqlConnector = sqlConnector;
             _hiveConnector = hiveConnector;
         }
+        */
 
         public class OriginGet
         {
@@ -38,19 +40,19 @@ namespace webApiPro.Controllers
 
         public class MonthRateGet
         {
-            public int? month { get; set; }
-            public string? delay_ratio { get; set; }
+            public int month { get; set; }
+            public string delay_ratio { get; set; }
         }
 
 
         [HttpGet("originmaxdelay")]
-        public List<OriginGet> getOriginDelay()
+        public async Task<List<OriginGet>> getOriginDelay()
         {
-            var temp =_sqlConnector.maxdepdelays
+            var temp = await _sqlConnector.maxdepdelays
                 .OrderByDescending(f => f.MaxDepDelay)
                 .Where(f => f.MaxDepDelay.HasValue && f.Origin != null)
                 .Take(10)
-                .ToList();
+                .ToListAsync();
             List<OriginGet> result = new List<OriginGet>();
             foreach(var f in temp)
             {
@@ -63,13 +65,13 @@ namespace webApiPro.Controllers
         }
 
         [HttpGet("destmaxdelay")]
-        public List<SqlModel.Flight.maxarrdelay> getDestinationDelay()
+        public async Task<List<SqlModel.Flight.maxarrdelay>> getDestinationDelay()
         {
-            return _sqlConnector.maxarrdelays
+            return await _sqlConnector.maxarrdelays
                 .OrderByDescending(f => f.MaxArrDelay)
                 .Where(f => f.Dest != null && f.MaxArrDelay.HasValue)
                 .Take(10)
-                .ToList();
+                .ToListAsync();
         }
 
         [HttpGet("typedelay")]
@@ -81,13 +83,13 @@ namespace webApiPro.Controllers
         }
 
         [HttpGet("airlongest")]
-        public List<AirTimeGet> GetLongestflights()
+        public async Task<List<AirTimeGet>> GetLongestflights()
         {
-            var temp = _sqlConnector.longestflights
+            var temp = await _sqlConnector.longestflights
                 .OrderByDescending(f => f.MaxAirTime)
                 .Where(f => f.FlightNum.HasValue && f.MaxAirTime.HasValue)
                 .Take(10)
-                .ToList();
+                .ToListAsync();
             List<AirTimeGet> list = new List<AirTimeGet>();
             foreach(var f in temp)
             {
@@ -101,19 +103,19 @@ namespace webApiPro.Controllers
         }
 
         [HttpGet("maindelayreasonrate")]
-        public List<MainDelayReasonRate> GetMainReason()
+        public async Task<List<MainDelayReasonRate>> GetMainReason()
         {
-            return _sqlConnector.mainDelayReasons
+            return await _sqlConnector.mainDelayReasons
                 .OrderByDescending(f => f.Month)
-                .ToList();
+                .ToListAsync();
         }
 
         [HttpGet("monthrate")]
-        public List<MonthRateGet> GetMonthRateGets()
+        public async Task<List<MonthRateGet>> GetMonthRateGets()
         {
-            List<SqlModel.Flight.monthRate> monthRates = _sqlConnector.monthRates
+            List<SqlModel.Flight.monthRate> monthRates = await _sqlConnector.monthRates
                 .OrderByDescending(f => f.Month) 
-                .ToList();
+                .ToListAsync();
             List<MonthRateGet> list = new List<MonthRateGet>();
             foreach (var f in monthRates)
             {
@@ -126,12 +128,12 @@ namespace webApiPro.Controllers
         }
 
         [HttpGet("monthrate/{month}")]
-        public List<MonthRateGet> GetMonthRateGets(int month)
+        public async Task<List<MonthRateGet>> GetMonthRateGets(int month)
         {
-            List<SqlModel.Flight.monthRate> monthRates = _sqlConnector.monthRates
+            List<SqlModel.Flight.monthRate> monthRates = await _sqlConnector.monthRates
                 .Where(f => f.Month == month)
                 .OrderByDescending(f => f.Month)
-                .ToList();
+                .ToListAsync();
             List<MonthRateGet> list = new List<MonthRateGet>();
             foreach (var f in monthRates)
             {
@@ -145,16 +147,18 @@ namespace webApiPro.Controllers
 
 
         [HttpPost("monthrate")]
-        public string PostMonthRate([FromBody] MonthRateGet monthRateGet)
+        public async Task<string> PostMonthRate([FromBody] MonthRateGet monthRateGet)
         {
-            _sqlConnector.monthRates.Add(new SqlModel.Flight.monthRate
+            await _sqlConnector.monthRates.AddAsync(new SqlModel.Flight.monthRate
             {
-                Month = monthRateGet.month.Value,
-                delay_ratio = double.Parse(monthRateGet.delay_ratio) / 100
+                Month = monthRateGet.month,
+                delay_ratio = float.Parse(monthRateGet.delay_ratio) / 100
             });
-            return "PostMonthRate";
+            await _sqlConnector.SaveChangesAsync();
+            return "Success";
         }
 
+        /*
         [HttpGet("hivetest")]
         public IActionResult GetHiveTest()
         {
@@ -168,7 +172,7 @@ namespace webApiPro.Controllers
             {
                 return StatusCode(500, "Internal server error: " + ex.Message);
             }
-        }
+        }*/
 
         
 

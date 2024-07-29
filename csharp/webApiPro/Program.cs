@@ -29,7 +29,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddDbContext<webApiPro.SqlConnector>(options => options.UseMySql("server=centos;database=flight;user=root;port=3306;password=hadoop;AllowPublicKeyRetrieval=True;", 
     new MySqlServerVersion(new Version(5, 7, 29))));
 
-builder.Services.AddSingleton<HiveConnector>(provider => new HiveConnector("Driver={Hive ODBC Driver};Host=centos;Port=10000;Database=flight;UID=root;PWD=;"));
+//builder.Services.AddSingleton<HiveConnector>(provider => new HiveConnector("Driver={Hive ODBC Driver};Host=centos;Port=10000;Database=flight;UID=root;PWD=;"));
 
 //builder.Services.AddSingleton<HiveConnector>();
 
