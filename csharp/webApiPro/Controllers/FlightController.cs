@@ -48,20 +48,16 @@ namespace webApiPro.Controllers
         [HttpGet("originmaxdelay")]
         public async Task<List<OriginGet>> getOriginDelay()
         {
-            var temp = await _sqlConnector.maxdepdelays
+            return await _sqlConnector.maxdepdelays
                 .OrderByDescending(f => f.MaxDepDelay)
                 .Where(f => f.MaxDepDelay.HasValue && f.Origin != null)
                 .Take(10)
+                .Select(_ => new OriginGet
+                {
+                    origin = _.Origin,
+                    maxDelay = _.MaxDepDelay
+                })
                 .ToListAsync();
-            List<OriginGet> result = new List<OriginGet>();
-            foreach(var f in temp)
-            {
-                OriginGet og = new OriginGet();
-                og.origin = f.Origin;
-                og.maxDelay = f.MaxDepDelay;
-                result.Add(og);
-            }
-            return result;
         }
 
         [HttpGet("destmaxdelay")]
@@ -77,29 +73,22 @@ namespace webApiPro.Controllers
         [HttpGet("typedelay")]
         public List<SqlModel.Flight.maxdelay> GetMaxdelays()
         {
-            return _sqlConnector.maxdelays
-                .Where(f => f.MaxDelay.HasValue && f.DelayType != null)
-                .ToList();
+            return [.. _sqlConnector.maxdelays.Where(f => f.MaxDelay.HasValue && f.DelayType != null)];
         }
 
         [HttpGet("airlongest")]
         public async Task<List<AirTimeGet>> GetLongestflights()
         {
-            var temp = await _sqlConnector.longestflights
+            return await _sqlConnector.longestflights
                 .OrderByDescending(f => f.MaxAirTime)
                 .Where(f => f.FlightNum.HasValue && f.MaxAirTime.HasValue)
                 .Take(10)
+                .Select(_ => new AirTimeGet
+                {
+                    FlightNub = _.FlightNum,
+                    AirTime = _.MaxAirTime
+                })
                 .ToListAsync();
-            List<AirTimeGet> list = new List<AirTimeGet>();
-            foreach(var f in temp)
-            {
-                AirTimeGet airTimeGet = new AirTimeGet();
-                airTimeGet.AirTime = f.MaxAirTime;
-                airTimeGet.FlightNub = f.FlightNum;
-                list.Add(airTimeGet);
-            }
-            return list;
-
         }
 
         [HttpGet("maindelayreasonrate")]
@@ -113,36 +102,28 @@ namespace webApiPro.Controllers
         [HttpGet("monthrate")]
         public async Task<List<MonthRateGet>> GetMonthRateGets()
         {
-            List<SqlModel.Flight.monthRate> monthRates = await _sqlConnector.monthRates
+            return await _sqlConnector.monthRates
                 .OrderByDescending(f => f.Month) 
+                .Select(_ => new MonthRateGet
+                {
+                    month = _.Month,
+                    delay_ratio = (_.delay_ratio * 100).ToString("F2")
+                })
                 .ToListAsync();
-            List<MonthRateGet> list = new List<MonthRateGet>();
-            foreach (var f in monthRates)
-            {
-                MonthRateGet monthRateGet = new MonthRateGet();
-                monthRateGet.month = f.Month;
-                monthRateGet.delay_ratio = (f.delay_ratio * 100).ToString("F2");
-                list.Add(monthRateGet);
-            }
-            return list;
         }
 
         [HttpGet("monthrate/{month}")]
         public async Task<List<MonthRateGet>> GetMonthRateGets(int month)
         {
-            List<SqlModel.Flight.monthRate> monthRates = await _sqlConnector.monthRates
+            return await _sqlConnector.monthRates
                 .Where(f => f.Month == month)
                 .OrderByDescending(f => f.Month)
+                .Select(_ => new MonthRateGet
+                {
+                    month = _.Month,
+                    delay_ratio = (_.delay_ratio * 100).ToString("F2")
+                })
                 .ToListAsync();
-            List<MonthRateGet> list = new List<MonthRateGet>();
-            foreach (var f in monthRates)
-            {
-                MonthRateGet monthRateGet = new MonthRateGet();
-                monthRateGet.month = f.Month;
-                monthRateGet.delay_ratio = (f.delay_ratio * 100).ToString("F2");
-                list.Add(monthRateGet);
-            }
-            return list;
         }
 
 
