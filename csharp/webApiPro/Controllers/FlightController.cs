@@ -48,6 +48,14 @@ namespace webApiPro.Controllers
         [HttpGet("originmaxdelay")]
         public async Task<List<OriginGet>> getOriginDelay()
         {
+            // return [.._sqlConnector.maxdepdelays.OrderByDescending(f => f.MaxDepDelay)
+            //     .Where(f => f.MaxDepDelay.HasValue && f.Origin != null)
+            //     .Take(10)
+            //     .Select(_ => new OriginGet
+            //     {
+            //         origin = _.Origin,
+            //         maxDelay = _.MaxDepDelay
+            //     })];
             return await _sqlConnector.maxdepdelays
                 .OrderByDescending(f => f.MaxDepDelay)
                 .Where(f => f.MaxDepDelay.HasValue && f.Origin != null)
@@ -63,6 +71,9 @@ namespace webApiPro.Controllers
         [HttpGet("destmaxdelay")]
         public async Task<List<SqlModel.Flight.maxarrdelay>> getDestinationDelay()
         {
+            // return [.._sqlConnector.maxarrdelays.OrderByDescending(f => f.MaxArrDelay)
+            //     .Where(f => f.Dest != null && f.MaxArrDelay.HasValue)
+            //     .Take(10)];
             return await _sqlConnector.maxarrdelays
                 .OrderByDescending(f => f.MaxArrDelay)
                 .Where(f => f.Dest != null && f.MaxArrDelay.HasValue)
@@ -79,6 +90,14 @@ namespace webApiPro.Controllers
         [HttpGet("airlongest")]
         public async Task<List<AirTimeGet>> GetLongestflights()
         {
+            // return [.._sqlConnector.longestflights.OrderByDescending(f => f.MaxAirTime)
+            //     .Where(f => f.FlightNum.HasValue && f.MaxAirTime.HasValue)
+            //     .Take(10)
+            //     .Select(_ => new AirTimeGet
+            //     {
+            //         FlightNub = _.FlightNum,
+            //         AirTime = _.MaxAirTime
+            //     })];
             return await _sqlConnector.longestflights
                 .OrderByDescending(f => f.MaxAirTime)
                 .Where(f => f.FlightNum.HasValue && f.MaxAirTime.HasValue)
@@ -94,6 +113,7 @@ namespace webApiPro.Controllers
         [HttpGet("maindelayreasonrate")]
         public async Task<List<MainDelayReasonRate>> GetMainReason()
         {
+            // return [.._sqlConnector.mainDelayReasons.OrderByDescending(f => f.Month)];
             return await _sqlConnector.mainDelayReasons
                 .OrderByDescending(f => f.Month)
                 .ToListAsync();
@@ -102,6 +122,13 @@ namespace webApiPro.Controllers
         [HttpGet("monthrate")]
         public async Task<List<MonthRateGet>> GetMonthRateGets()
         {
+            // return [.._sqlConnector.monthRates
+            //     .OrderByDescending(f => f.Month)
+            //     .Select(_ => new MonthRateGet
+            //     {
+            //         month = _.Month,
+            //         delay_ratio = (_.delay_ratio * 100).ToString("F2")
+            //     })];
             return await _sqlConnector.monthRates
                 .OrderByDescending(f => f.Month) 
                 .Select(_ => new MonthRateGet
@@ -115,6 +142,13 @@ namespace webApiPro.Controllers
         [HttpGet("monthrate/{month}")]
         public async Task<List<MonthRateGet>> GetMonthRateGets(int month)
         {
+            // return [.._sqlConnector.monthRates.Where(f => f.Month == month)
+            //     .OrderByDescending(f => f.Month)
+            //     .Select(_ => new MonthRateGet
+            //     {
+            //         month = _.Month,
+            //         delay_ratio = (_.delay_ratio * 100).ToString("F2")
+            //     })];
             return await _sqlConnector.monthRates
                 .Where(f => f.Month == month)
                 .OrderByDescending(f => f.Month)
