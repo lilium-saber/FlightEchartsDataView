@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using MySqlConnector;
 
 
 namespace webApiPro
@@ -8,7 +9,7 @@ namespace webApiPro
     {
         public SqlConnector(){}
 
-        private static string connection_centos = "server=centos;database=flight;user=root;password=hadoop;AllowPublicKeyRetrieval=True;port=3306;";
+        private static string connection_centos = "server=sh-cynosdbmysql-grp-7htri1i4.sql.tencentcdb.com;database=vsccauc;user=testCode;password=TestCode636;AllowPublicKeyRetrieval=True;port=20094;";
 
         //public SqlConnector(DbContextOptions<SqlConnector> options) : base(options){}
 
@@ -25,7 +26,7 @@ namespace webApiPro
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySql("server=centos;database=flight;user=root;port=3306;password=hadoop;AllowPublicKeyRetrieval=True;",new MySqlServerVersion(new Version(5, 7, 29)));
+            optionsBuilder.UseMySql(connection_centos,new MySqlServerVersion(new Version(8, 0, 1)), mySqlOptions => mySqlOptions.EnableRetryOnFailure());
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

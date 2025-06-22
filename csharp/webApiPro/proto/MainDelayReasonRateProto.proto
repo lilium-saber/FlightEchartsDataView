@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package main;
+option go_package = "./proto;proto";
+
+service FlightService {
+  rpc GetMainDelayReasonRates (Empty) returns (MainDelayReasonRateList);
+}
+
+message Empty {}
+
+message MainDelayReasonRate {
+  int32 Year = 1;
+  int32 Month = 2;
+  int32 NumCarrierDelays = 3;
+  int32 NumWeatherDelays = 4;
+  int32 NumNASDelays = 5;
+  int32 NumSecurityDelays = 6;
+  int32 NumLateAircraftDelays = 7;
+  int32 TotalDelays = 8;
+  double CarrierDelayRate = 9;
+  double WeatherDelayRate = 10;
+  double NASDelayRate = 11;
+  double SecurityDelayRate = 12;
+  double LateAircraftDelayRate = 13;
+}
+
+message MainDelayReasonRateList {
+  repeated MainDelayReasonRate items = 1;
+}

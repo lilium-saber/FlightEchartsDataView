@@ -26,8 +26,10 @@ builder.Services.AddCors(options =>
 });
 
 //var connectionString = "server=centos;database=flight;user=root;password=hadoop;AllowPublicKeyRetrieval=True;port=3306;";
-builder.Services.AddDbContext<webApiPro.SqlConnector>(options => options.UseMySql("server=centos;database=flight;user=root;port=3306;password=hadoop;AllowPublicKeyRetrieval=True;", 
-    new MySqlServerVersion(new Version(5, 7, 29))));
+builder.Services.AddDbContext<webApiPro.SqlConnector>(options => options.UseMySql("server=sh-cynosdbmysql-grp-7htri1i4.sql.tencentcdb.com;database=vsccauc;user=testCode;password=TestCode636;port=20094;", 
+    new MySqlServerVersion(new Version(8, 0, 1)),
+    mySqlOptions => mySqlOptions.EnableRetryOnFailure()
+    ));
 
 //builder.Services.AddSingleton<HiveConnector>(provider => new HiveConnector("Driver={Hive ODBC Driver};Host=centos;Port=10000;Database=flight;UID=root;PWD=;"));
 

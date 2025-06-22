@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Grpc.Net.Client;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using webApiPro.SqlModel.Flight;
+using Main;
 
 namespace webApiPro.Controllers
 {
@@ -35,7 +37,7 @@ namespace webApiPro.Controllers
         public class AirTimeGet
         {
             public int? FlightNub { get; set; }
-            public int? AirTime { get; set; }
+            public double? AirTime { get; set; }
         }
 
         public class MonthRateGet
@@ -111,13 +113,21 @@ namespace webApiPro.Controllers
         }
 
         [HttpGet("maindelayreasonrate")]
-        public async Task<List<MainDelayReasonRate>> GetMainReason()
+        public async Task<IActionResult> GetMainDelayReasonRate()
         {
-            // return [.._sqlConnector.mainDelayReasons.OrderByDescending(f => f.Month)];
-            return await _sqlConnector.mainDelayReasons
-                .OrderByDescending(f => f.Month)
-                .ToListAsync();
+            using var channel = GrpcChannel.ForAddress("http://localhost:18080");
+            var client = new Main.FlightService.FlightServiceClient(channel);
+
+            var response = await client.GetMainDelayReasonRatesAsync(new ());
+            return Ok(response.Items);
         }
+        // public async Task<List<MainDelayReasonRate>> GetMainReason()
+        // {
+        //     // return [.._sqlConnector.mainDelayReasons.OrderByDescending(f => f.Month)];
+        //     return await _sqlConnector.mainDelayReasons
+        //         .OrderByDescending(f => f.Month)
+        //         .ToListAsync();
+        // }
 
         [HttpGet("monthrate")]
         public async Task<List<MonthRateGet>> GetMonthRateGets()
